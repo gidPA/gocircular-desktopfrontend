@@ -39,8 +39,10 @@
                 </ion-col>
             </ion-row>
         </ion-grid>
-
     </ion-page>
+
+
+
 
 </template>
 
@@ -95,6 +97,7 @@ const handleLogin = async () => {
 
 <style scoped>
 .change-flex-spacing {
+    display: flex;
     justify-content: center;
 }
 

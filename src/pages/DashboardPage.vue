@@ -1,5 +1,8 @@
 <template>
-    <ion-split-pane when="(min-width: 720px)" content-id="main">
+    
+
+    <ion-page>
+        <ion-split-pane when="(min-width: 720px)" content-id="main">
         <ion-menu content-id="main" class="menu-pane-config">
             <div class="menu-switch"></div>
             <div class="custom-menu-config">
@@ -22,13 +25,14 @@
             </div>
         </ion-menu>
 
-        <div class="ion-page" id="main">
+        <div id="main">
+
             <ion-header class="ion-no-border">
                 <div class="main-view-header">
 
                 </div>
             </ion-header>
-            <ion-text>
+                <ion-text>
                 <h1>Transaction History</h1>
             </ion-text>
             <ion-content class="ion-padding content-margin">
@@ -59,12 +63,16 @@
                 </ion-grid>
 
             </ion-content>
+
+
         </div>
     </ion-split-pane>
+    </ion-page>
 </template>
 
 <script setup lang="ts">
 import {
+    IonPage,
     IonContent,
     IonHeader,
     IonMenu,
@@ -78,6 +86,7 @@ import {
     IonLabel,
     IonItem,
     IonIcon,
+    onIonViewWillEnter
 } from '@ionic/vue';
 import { ref, onMounted } from 'vue';
 import {eye} from "ionicons/icons";
@@ -108,11 +117,11 @@ const fetchData = async () => {
         })
         transactionData.value = response.data; 
     }catch(error){
-        console.log(`Failed to retrieve transaction information. \n Response code: ${error.code}`)
+        console.log(`Failed to retrieve transaction information. \n Response code: ${error.code}`);
     }  
 }
 
-onMounted(async () => {
+onIonViewWillEnter(async () => {
     console.log("testing heughaeughe");
     await fetchData();
 })
