@@ -1,5 +1,7 @@
 <template>
-    <div></div>
+    <base-layout></base-layout>
 </template>
 
-<script></script>
+<script>
+import BaseLayout from '@/components/BaseLayout.vue';
+</script>
