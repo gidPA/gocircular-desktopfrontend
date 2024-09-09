@@ -23,15 +23,16 @@
         </ion-menu>
 
         <div class="ion-page" id="main">
-            <ion-header>
+            <ion-header class="ion-no-border">
                 <div class="main-view-header">
 
                 </div>
             </ion-header>
+            <ion-text>
+                <h1>Transaction History</h1>
+            </ion-text>
             <ion-content class="ion-padding content-margin">
-                <ion-text>
-                    <h1>Transaction History</h1>
-                </ion-text>
+
 
                 <ion-grid>
                     <ion-row>
@@ -51,7 +52,9 @@
                         <ion-col size="2">{{ transaction.rvmID }}</ion-col>
                         <ion-col size="1">{{ transaction.item_amount }}</ion-col>
                         <ion-col size="2">{{ transaction.total_point }}</ion-col>
-                        <ion-col size="4">Actions</ion-col>
+                        <ion-col size="4">
+                        <ion-icon :icon="eye"></ion-icon>
+                        </ion-col>
                     </ion-row>
                 </ion-grid>
 
@@ -60,7 +63,7 @@
     </ion-split-pane>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import {
     IonContent,
     IonHeader,
@@ -73,11 +76,14 @@ import {
     IonList,
     IonImg,
     IonLabel,
-    IonItem
+    IonItem,
+    IonIcon,
 } from '@ionic/vue';
-
+import { ref, onMounted } from 'vue';
+import {eye} from "ionicons/icons";
 import axios from 'axios';
 import { convertTZ } from '@/utils/convertDateStringTimezone';
+
 
 interface TransactionData {
     transactionID: number,
@@ -90,42 +96,26 @@ interface TransactionData {
     total_point: number
 }
 
-export default{
-    components:{
-        IonContent,
-        IonHeader,
-        IonMenu,
-        IonSplitPane,
-        IonText,
-        IonGrid,
-        IonRow,
-        IonCol,
-        IonList,
-        IonImg,
-        IonLabel,
-        IonItem
-    },
-    data(){
-        return{
-            transactionData: [] as Array<TransactionData>
-        }
-    },
 
-    methods:{
-        async fetchData(){
-            const response = await axios.get("http://127.0.0.1:4001/api/transaction/list");
+const transactionData = ref([] as Array<TransactionData>)
 
-            response.data.forEach((data: TransactionData) => {
-                data.transactionDate = convertTZ(data.transactionDate, "Asia/Jakarta");
-            })
-            this.transactionData = response.data;
-        }
-    },
+const fetchData = async () => {
+    try{
+        const response = await axios.get(`${import.meta.env.VITE_GOCIRCULAR_API_URL}/transaction/list`);
 
-    mounted(){
-        this.fetchData();
-    }
+        response.data.forEach((data: TransactionData) => {
+            data.transactionDate = convertTZ(data.transactionDate, "Asia/Jakarta");
+        })
+        transactionData.value = response.data; 
+    }catch(error){
+        console.log(`Failed to retrieve transaction information. \n Response code: ${error.code}`)
+    }  
 }
+
+onMounted(async () => {
+    console.log("testing heughaeughe");
+    await fetchData();
+})
 
 </script>
 
@@ -150,6 +140,15 @@ ion-grid {
 ion-col {
     border: solid 1px #ffffff;
     text-align: center;
+}
+
+ion-text{
+    margin-left: 30px;
+    margin-bottom: 10px;
+}
+
+h1{
+    font-size: 26pt;
 }
 
 .custom-menu-config {

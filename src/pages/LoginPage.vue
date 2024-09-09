@@ -14,16 +14,26 @@
                     <form>
                         <ion-list>
                             <ion-item>
-                                <ion-input label="Email Address" label-placement="floating" type="email"
-                                    required></ion-input>
+                                <ion-input
+                                    label="Email Address"
+                                    label-placement="floating"
+                                    type="email"
+                                    v-model="enteredEmailAddress"
+                                    required>
+                                </ion-input>
                             </ion-item>
                             <ion-item>
-                                <ion-input label="Password" label-placement="floating" type="password"
-                                    required></ion-input>
+                                <ion-input 
+                                    label="Password"
+                                    label-placement="floating"
+                                    type="password"
+                                    v-model="enteredPassword"
+                                    required>
+                                </ion-input>
                             </ion-item>
                         </ion-list>
                     </form>
-                    <ion-button type="submit" expand="full">
+                    <ion-button type="submit" expand="full" @click="handleLogin">
                         Login
                     </ion-button>
                 </ion-col>
@@ -34,7 +44,7 @@
 
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import {
     IonPage,
     IonText,
@@ -47,35 +57,40 @@ import {
     IonImg,
     IonRow,
     IonCol
-} from '@ionic/vue'
+} from '@ionic/vue';
+import { ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { useAuthStore } from '@/stores/useAuthStore';
 
-export default {
-    components: {
-        IonPage,
-        IonText,
-        //IonContent,
-        IonList,
-        IonItem,
-        IonInput,
-        IonButton,
-        IonGrid,
-        IonImg,
-        IonRow,
-        IonCol
-    },
-    data() {
-        return {
-            enteredEmailAddress: "",
-            enteredPassword: ""
+const router = useRouter();
+const route = useRoute();
+const authStore = useAuthStore();
+
+//login entry states
+const enteredEmailAddress = ref("");
+const enteredPassword = ref("");
+//end
+
+//login method
+const handleLogin = async () => {
+    try{
+        await authStore.login({
+        email: enteredEmailAddress.value,
+        password: enteredPassword.value
+        })
+
+        if(authStore.accessToken){
+            const redirectPath = route.query.redirect || "/";
+            router.push(redirectPath);
         }
-    },
-
-    methods: {
-        submitCredentials() {
-
-        }
+    }catch(err){
+        console.log(err);
     }
+
 }
+//end
+
+
 </script>
 
 <style scoped>
