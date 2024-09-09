@@ -2,7 +2,8 @@ import { createRouter, createWebHistory, } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import { useAuthStore } from '@/stores/useAuthStore';
 import LoginPage from '@/pages/LoginPage.vue';
-import DashboardPage from '@/pages/DashboardPage.vue'
+// import DashboardPage from '@/components/BaseLayout.vue'
+import TransactionList from '@/pages/TransactionList.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -17,11 +18,19 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: DashboardPage,
+    component: TransactionList,
     meta:{
       requiresAuth: true
     }
   },
+  // {
+  //   path: '/transactions',
+  //   name: 'Dashboard',
+  //   component: TransactionList,
+  //   meta:{
+  //     requiresAuth: true
+  //   }
+  // },
 ]
 
 const router = createRouter({
