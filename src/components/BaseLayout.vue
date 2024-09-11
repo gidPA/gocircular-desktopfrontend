@@ -7,17 +7,35 @@
 
                     <ion-img src="/Logo_large.png" class="logo-config"></ion-img>
                     <ion-list :inset="true" class="menu-button-config">
-                        <ion-item>
+                        <ion-item
+                            class="ion-activatable ripple-parent"
+                            router-link="/dashboard"
+                            :button="true"
+                            >
                             <ion-label>Dashboard</ion-label>
+                            <ion-ripple-effect></ion-ripple-effect>
                         </ion-item>
-                        <ion-item>
+                        <ion-item
+                            class="ion-activatable ripple-parent"
+                            router-link="transactions"
+                            :button="true"
+                            >
                             <ion-label>Transactions</ion-label>
+                            <ion-ripple-effect></ion-ripple-effect>
                         </ion-item>
-                        <ion-item>
+                        <ion-item
+                            class="ion-activatable ripple-parent"
+                            :button="true"
+                            >
                             <ion-label>RVM</ion-label>
+                            <ion-ripple-effect></ion-ripple-effect>
                         </ion-item>
-                        <ion-item>
+                        <ion-item
+                            class="ion-activatable ripple-parent"
+                            router-link="/user"
+                            :button="true">
                             <ion-label>Users</ion-label>
+                            <ion-ripple-effect></ion-ripple-effect>
                         </ion-item>
                     </ion-list>
                 </div>
@@ -26,7 +44,9 @@
             <div id="main">
                 <ion-header class="ion-no-border">
                     <div class="main-view-header">
-
+                        <ion-avatar>
+                            <img src="/pp_placeholder.png"/>
+                        </ion-avatar>
                     </div>
                 </ion-header>
                 <ion-content class="ion-padding content-margin">
@@ -48,6 +68,8 @@ import {
     IonImg,
     IonLabel,
     IonItem,
+    IonAvatar,
+    IonRippleEffect
 } from '@ionic/vue';
 </script>
 
@@ -55,7 +77,10 @@ import {
 /* .menu-pane-config{
     --max-width: 230px !important;
 } */
+ion-avatar{
 
+    border-radius: 4px;
+}
 ion-split-pane {
     --side-min-width: 220px;
     --side-max-width: 220px;
@@ -100,5 +125,22 @@ h1 {
 
 .main-view-header {
     height: 56px;
+}
+
+
+/* 
+    IonRippleEffect Styling
+*/
+.rounded-rectangle {
+    width: 185px;
+    height: 65px;
+    border-radius: 8px;
+}
+
+.ripple-parent {
+    position: relative;
+    overflow: hidden;
+
+    border: 1px solid #ddd;
 }
 </style>

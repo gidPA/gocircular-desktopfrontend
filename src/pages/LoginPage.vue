@@ -40,10 +40,6 @@
             </ion-row>
         </ion-grid>
     </ion-page>
-
-
-
-
 </template>
 
 <script setup lang="ts">
