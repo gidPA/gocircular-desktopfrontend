@@ -5,7 +5,7 @@ http://ionicframework.com/docs/theming/ */
 } */
 @font-face {
 	font-family: Inter;
-	src: url("/Inter/Inter-Variable.ttf");
+	src: url("/src/assets/Inter/Inter-Variable.ttf");
 	}
 
 

@@ -5,11 +5,11 @@
                 <div class="menu-switch"></div>
                 <div class="custom-menu-config">
 
-                    <ion-img src="/Logo_large.png" class="logo-config"></ion-img>
+                    <ion-img :src="logoSource" class="logo-config"></ion-img>
                     <ion-list :inset="true" class="menu-button-config">
                         <ion-item
                             class="ion-activatable ripple-parent"
-                            router-link="/dashboard"
+                            @click="switchTabView('/dashboard')"
                             :button="true"
                             >
                             <ion-label>Dashboard</ion-label>
@@ -17,7 +17,7 @@
                         </ion-item>
                         <ion-item
                             class="ion-activatable ripple-parent"
-                            router-link="transactions"
+                            @click="switchTabView('/transactions')"
                             :button="true"
                             >
                             <ion-label>Transactions</ion-label>
@@ -25,6 +25,7 @@
                         </ion-item>
                         <ion-item
                             class="ion-activatable ripple-parent"
+                            @click="switchTabView('/rvm')"
                             :button="true"
                             >
                             <ion-label>RVM</ion-label>
@@ -32,7 +33,7 @@
                         </ion-item>
                         <ion-item
                             class="ion-activatable ripple-parent"
-                            router-link="/user"
+                            @click="switchTabView('/user')"
                             :button="true">
                             <ion-label>Users</ion-label>
                             <ion-ripple-effect></ion-ripple-effect>
@@ -44,8 +45,8 @@
             <div id="main">
                 <ion-header class="ion-no-border">
                     <div class="main-view-header">
-                        <ion-avatar>
-                            <img src="/pp_placeholder.png"/>
+                        <ion-avatar @click="openPopover">
+                            <img src="/src/assets/pp_placeholder.png"/>
                         </ion-avatar>
                     </div>
                 </ion-header>
@@ -69,8 +70,34 @@ import {
     IonLabel,
     IonItem,
     IonAvatar,
-    IonRippleEffect
+    //IonPopover,
+    IonRippleEffect,
+    popoverController
 } from '@ionic/vue';
+import { ref } from 'vue';
+import {useRouter} from 'vue-router';
+import CustomPopover from './CustomPopover.vue';
+
+const router = useRouter();
+/**
+ * TODO: This still has "desktop" in the path. TODO: Resolve this
+ */
+const logoSource = ref("/desktop/src/assets/Logo_large.png");
+
+async function openPopover(ev: Event){
+    const popover = await popoverController.create({
+        component: CustomPopover,
+        event: ev
+    });
+    await popover.present();
+
+    const role = await popover.onDidDismiss();
+    console.log(`Popover dismissed with role: ${role}`);
+}
+
+async function switchTabView(view: string){
+    router.replace(view);
+}
 </script>
 
 <style scoped>
@@ -78,8 +105,13 @@ import {
     --max-width: 230px !important;
 } */
 ion-avatar{
-
+    margin-top: 10px;
     border-radius: 4px;
+}
+
+ion-avatar img{
+    height: 40px;
+    width: 40px;
 }
 ion-split-pane {
     --side-min-width: 220px;
@@ -124,6 +156,9 @@ h1 {
 }
 
 .main-view-header {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
     height: 56px;
 }
 

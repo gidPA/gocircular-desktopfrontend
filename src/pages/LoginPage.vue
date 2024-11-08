@@ -1,9 +1,9 @@
 <template>
     <ion-page class="change-flex-spacing">
-        <ion-img src="Logo_large.png" class="custom-img-prop">
+        <ion-img :src="logoUrl" class="custom-img-prop">
         </ion-img>
 
-        <ion-grid class="disable-flex">
+        <ion-grid class="disable-flex">     
             <ion-row>
                 <ion-col class="custom-padding ion-padding-end">
                     <ion-text class="ion-text-end">
@@ -59,6 +59,9 @@ import {
 import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useAuthStore } from '@/stores/useAuthStore';
+import logo from "@/assets/Logo_large.png"
+
+const logoUrl = ref(logo);
 
 const router = useRouter();
 const route = useRoute();
@@ -79,7 +82,7 @@ const handleLogin = async () => {
 
         if(authStore.accessToken){
             const redirectPath = route.query.redirect || "/";
-            router.push(redirectPath);
+            router.replace(redirectPath);
         }
     }catch(err){
         console.log(err);

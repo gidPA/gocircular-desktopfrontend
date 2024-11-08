@@ -5,6 +5,7 @@ import LoginPage from '@/pages/LoginPage.vue';
 import DashboardPage from '@/pages/DashboardPage.vue'
 import TransactionList from '@/pages/TransactionList.vue';
 import UserList from '@/pages/UserList.vue';
+import RVMList from '@/pages/RVMList.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -20,6 +21,14 @@ const routes: Array<RouteRecordRaw> = [
     path: '/dashboard',
     name: 'Dashboard',
     component: DashboardPage,
+    meta:{
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/rvm',
+    name: 'RVM',
+    component: RVMList,
     meta:{
       requiresAuth: true
     }
