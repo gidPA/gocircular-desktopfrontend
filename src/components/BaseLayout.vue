@@ -8,9 +8,10 @@
                     <ion-img :src="logoSource" class="logo-config"></ion-img>
                     <ion-list :inset="true" class="menu-button-config">
                         <ion-item
-                            class="ion-activatable ripple-parent"
+                            class="ion-activatable ripple-parent ion-no-border"
                             @click="switchTabView('/dashboard')"
                             :button="true"
+                            lines="none"
                             >
                             <ion-label>Dashboard</ion-label>
                             <ion-ripple-effect></ion-ripple-effect>
@@ -19,6 +20,7 @@
                             class="ion-activatable ripple-parent"
                             @click="switchTabView('/transactions')"
                             :button="true"
+                            lines="none"
                             >
                             <ion-label>Transactions</ion-label>
                             <ion-ripple-effect></ion-ripple-effect>
@@ -27,6 +29,7 @@
                             class="ion-activatable ripple-parent"
                             @click="switchTabView('/rvm')"
                             :button="true"
+                            lines="none"
                             >
                             <ion-label>RVM</ion-label>
                             <ion-ripple-effect></ion-ripple-effect>
@@ -34,7 +37,9 @@
                         <ion-item
                             class="ion-activatable ripple-parent"
                             @click="switchTabView('/user')"
-                            :button="true">
+                            :button="true"
+                            lines="none"
+                        >
                             <ion-label>Users</ion-label>
                             <ion-ripple-effect></ion-ripple-effect>
                         </ion-item>
@@ -175,7 +180,5 @@ h1 {
 .ripple-parent {
     position: relative;
     overflow: hidden;
-
-    border: 1px solid #ddd;
 }
 </style>

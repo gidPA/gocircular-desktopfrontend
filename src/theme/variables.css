@@ -88,3 +88,7 @@ ion-split-pane{
 ion-menu{
     --max-width: 220px;
 }
+
+ion-button{
+	text-transform: none;
+}

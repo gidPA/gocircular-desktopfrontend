@@ -6,6 +6,7 @@ import DashboardPage from '@/pages/DashboardPage.vue'
 import TransactionList from '@/pages/TransactionList.vue';
 import UserList from '@/pages/UserList.vue';
 import RVMList from '@/pages/RVMList.vue';
+import RegisterNewRVM from '@/pages/rvm-subpages/RegisterNewRVM.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -31,6 +32,15 @@ const routes: Array<RouteRecordRaw> = [
     component: RVMList,
     meta:{
       requiresAuth: true
+    },
+    
+  },
+  {
+    path: '/rvm/register',
+    name: 'Register RVM',
+    component: RegisterNewRVM,
+    meta:{
+      requiresAuth: true,
     }
   },
   {
