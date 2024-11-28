@@ -43,6 +43,15 @@
                             <ion-label>Users</ion-label>
                             <ion-ripple-effect></ion-ripple-effect>
                         </ion-item>
+                        <ion-item
+                            class="ion-activatable ripple-parent"
+                            @click="switchTabView('/point_exchange')"
+                            :button="true"
+                            lines="none"
+                        >
+                            <ion-label>Point Exchange</ion-label>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </ion-item>
                     </ion-list>
                 </div>
             </ion-menu>

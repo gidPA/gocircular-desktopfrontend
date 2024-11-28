@@ -60,6 +60,22 @@ const routes: Array<RouteRecordRaw> = [
       requiresAuth: true
     }
   },
+  {
+    path: '/point_exchange',
+    name: 'Point Exchange',
+    component: () => import('@/pages/pointexchange-subpages/PointExchangeList.vue'),
+    meta: {
+      requiresAuth: true,
+    }
+  },
+  {
+    path: '/point_exchange/:id',
+    name: 'Point Exchange Actions',
+    component: () => import('@/pages/pointexchange-subpages/PointRequestAction.vue'),
+    meta: {
+      requiresAuth: true,
+    }
+  }
 ]
 
 const router = createRouter({
