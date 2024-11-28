@@ -95,9 +95,15 @@
                     >
                         Approve
                     </ion-button>
-                    <ion-button color="danger" :disabled="pointExchangeDetails?.status!=='PENDING'">
+                    <ion-button color="danger"
+                        :disabled="pointExchangeDetails?.status!=='PENDING'"
+                        @click="denyExchange"
+                    >
                         Deny
                     </ion-button>
+                    <!-- <ion-button color="tertiary" @click="backToList">
+                        Back
+                    </ion-button> -->
                 </ion-col>
             </ion-row>
         </ion-grid>
@@ -122,7 +128,7 @@ import {
 } from '@ionic/vue';
 // import {eye} from "ionicons/icons";
 import {ref} from "vue";
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 // import { ApiRequestMethods, apiRequest } from '@/utils/http';
 // import { convertTZ } from '@/utils/convertDateStringTimezone';
 
@@ -138,6 +144,7 @@ interface PointExchangeDetails{
 }
 
 const route = useRoute();
+const router = useRouter();
 const transactionID = route.params.id;
 const pointExchangeDetails = ref<PointExchangeDetails | null>(null);
 const isToastOpen = ref(false);
@@ -175,6 +182,33 @@ const approveExchange = async () => {
         console.log(`Cannot retrieve details with error: ${err}`);
         setToastState(true, "Failed to approve exchange", "danger");
     }
+}
+
+const denyExchange = async () => {
+    try{
+        if(!pointExchangeDetails.value?.transactionID){
+            throw new Error("Transaction ID was not fetched from API");
+        }
+
+        const response = await apiRequest('/point_exchange/deny', ApiRequestMethods.PUT, 
+            {
+                data : {
+                    exchangeID: pointExchangeDetails.value.transactionID
+                }
+            }
+        )
+
+        if(response.status === 204){
+            setToastState(true, "Successfully denied");
+        }
+    }catch(err){
+        console.log(`Cannot retrieve details with error: ${err}`);
+        setToastState(true, "Failed to deny exchange", "danger");
+    }
+}
+
+const backToList = () => {
+    router.replace("/point_exchange");
 }
 
 onIonViewWillEnter(async () => {

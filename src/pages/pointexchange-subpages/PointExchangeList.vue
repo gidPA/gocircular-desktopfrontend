@@ -109,10 +109,10 @@ const currentPage = ref<number>(0);
 const enteredRequestCode = ref<string>("");
 
 const seeActions = (id: number) => {
-    router.push(`/point_exchange/${id}`);
+    router.replace(`/point_exchange/${id}`);
 }
 
-const fetchData = async (page = 1, pageSize = 10) => {
+const fetchData = async (page = 1, pageSize = 8) => {
     try {
         console.log("clicked");
         let response: AxiosResponse<any, any>;
