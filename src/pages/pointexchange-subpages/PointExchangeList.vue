@@ -1,7 +1,7 @@
 <template>
     <base-layout>
         <ion-text class="page-title">
-            <h1>Transaction History</h1>
+            <h1>Point Exchange Requests List</h1>
         </ion-text>
         <div class="table-no-overflow">
             <ion-grid>
@@ -100,7 +100,7 @@ interface TransactionData {
 const router = useRouter();
 
 const transactionItem = ref([] as Array<TransactionData>);
-const pageSize = ref(10);
+const pageSize = ref(8);
 const itemCount = ref<number>(0);
 const totalItemCount = ref<number>(0);
 const pageCount = ref<number>(0);

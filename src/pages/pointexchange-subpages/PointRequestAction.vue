@@ -1,5 +1,14 @@
 <template>
     <base-layout>
+        <ion-toast
+            :is-open="isToastOpen"
+            :message="toastMessage"
+            :color="toastColor"
+            @didDismiss="setToastState(false)"
+            duration="4000"
+            position="top"
+        >
+        </ion-toast>
         <div class="title-and-button">
             <ion-back-button text="back" default-href="/point_exchange">
             </ion-back-button>
@@ -79,10 +88,14 @@
                     &nbsp;
                 </ion-col>
                 <ion-col size="5">
-                    <ion-button color="success" :disabled="pointExchangeDetails?.status==='COMPLETED'">
+                    <ion-button 
+                        color="success" 
+                        :disabled="pointExchangeDetails?.status!=='PENDING'"
+                        @click="approveExchange"
+                    >
                         Approve
                     </ion-button>
-                    <ion-button color="danger" :disabled="pointExchangeDetails?.status==='COMPLETED'">
+                    <ion-button color="danger" :disabled="pointExchangeDetails?.status!=='PENDING'">
                         Deny
                     </ion-button>
                 </ion-col>
@@ -103,6 +116,7 @@ import {
     IonRow,
     IonCol,
     IonButton,
+    IonToast,
     onIonViewWillEnter
     // IonIcon
 } from '@ionic/vue';
@@ -126,19 +140,42 @@ interface PointExchangeDetails{
 const route = useRoute();
 const transactionID = route.params.id;
 const pointExchangeDetails = ref<PointExchangeDetails | null>(null);
+const isToastOpen = ref(false);
+const toastMessage = ref("");
+const toastColor=ref("");
 
-// const fetchData = async () => {
-//     try {
-//         const response = await apiRequest("/rvm/list", ApiRequestMethods.GET);
+const setToastState = (isOpen: boolean, message: string = "", colorTheme: string = "success") => {
+    if (!isOpen){
+        isToastOpen.value = false;
+    } else {
+        isToastOpen.value = true;
+        toastMessage.value = message;
+        toastColor.value = colorTheme;
+    }
+}
 
-//         response.data.forEach((data: RVMData) => {
-//             data.registrationDate = convertTZ(data.registrationDate, "Asia/Jakarta");
-//         })
-//         rvmData.value = response.data;
-//     } catch (error) {
-//         console.log(`Failed to retrieve transaction information. \n Response code: ${error.code}`);
-//     }
-// }
+const approveExchange = async () => {
+    try{
+        if(!pointExchangeDetails.value?.transactionID){
+            throw new Error("Transaction ID was not fetched from API");
+        }
+
+        const response = await apiRequest('/point_exchange/approve', ApiRequestMethods.PUT, 
+            {
+                data : {
+                    exchangeID: pointExchangeDetails.value.transactionID
+                }
+            }
+        )
+
+        if(response.status === 204){
+            setToastState(true, "Successfully approved");
+        }
+    }catch(err){
+        console.log(`Cannot retrieve details with error: ${err}`);
+        setToastState(true, "Failed to approve exchange", "danger");
+    }
+}
 
 onIonViewWillEnter(async () => {
     try{
@@ -182,6 +219,6 @@ ion-col p{
 
 .title-and-button ion-button {
     height: 70%;
-
 }
+
 </style>
