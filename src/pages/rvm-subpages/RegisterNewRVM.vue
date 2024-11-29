@@ -15,7 +15,7 @@
                     <p>RVM ID</p>
                 </ion-col>
                 <ion-col size="5">
-                    <ion-input value="4012" fill="outline">
+                    <ion-input v-model="newID" fill="outline">
                     </ion-input>
                 </ion-col>
             </ion-row>
@@ -24,7 +24,7 @@
                 <ion-col size="2">
                     <p>Security Key</p></ion-col>
                 <ion-col size="5">
-                    <ion-input fill="outline">
+                    <ion-input fill="outline" v-model="securityKey">
                     </ion-input>
                 </ion-col>
             </ion-row>
@@ -56,12 +56,13 @@ import {
     IonRow,
     IonCol,
     IonButton,
+    onIonViewWillEnter
     // IonIcon
 } from '@ionic/vue';
 // import {eye} from "ionicons/icons";
-// import {ref, onMounted} from "vue";
+import {ref, } from "vue";
 import { useRouter } from 'vue-router';
-// import { ApiRequestMethods, apiRequest } from '@/utils/http';
+import { ApiRequestMethods, apiRequest } from '@/utils/http';
 // import { convertTZ } from '@/utils/convertDateStringTimezone';
 
 // interface RVMData {
@@ -86,16 +87,34 @@ const router = useRouter();
 //         console.log(`Failed to retrieve transaction information. \n Response code: ${error.code}`);
 //     }
 // }
+const newID = ref(0);
+const securityKey = ref("");
 
-// onMounted(async () => {
-//     console.log("testing hehehaha");
-//     await fetchData();
-// })
-const submitRVM = () => {
-    router.replace('/rvm');
+const submitRVM = async () => {
+    try{
+        const result = await apiRequest("/rvm/register", ApiRequestMethods.POST, {
+            data: {
+                newID: newID.value,
+                securityKey: securityKey.value
+            }
+        });
+        console.log(result);
+
+        router.replace('/rvm');
+    } catch(err){
+        console.log(err);
+    }
 }
 
+onIonViewWillEnter(async () => {
+    try{
+        const result = await apiRequest("/rvm/latestid", ApiRequestMethods.GET);
+        newID.value = result.data.nextId;
+    } catch(err){
+        console.log(`Cannot retrieve next ID with error: ${err}`);
+    }
 
+})
 </script>
 
 <style scoped>

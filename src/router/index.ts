@@ -75,6 +75,14 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       requiresAuth: true,
     }
+  },
+  {
+    path: '/recyclable',
+    name: 'Recyclable Price List',
+    component: () => import('@/pages/RecyclablePriceList.vue'),
+    meta: {
+      requiresAuth: true,
+    }
   }
 ]
 

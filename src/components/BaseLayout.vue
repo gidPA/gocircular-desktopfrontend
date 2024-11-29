@@ -45,6 +45,15 @@
                         </ion-item>
                         <ion-item
                             class="ion-activatable ripple-parent"
+                            @click="switchTabView('/recyclable')"
+                            :button="true"
+                            lines="none"
+                        >
+                            <ion-label>Recyclable</ion-label>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </ion-item>
+                        <ion-item
+                            class="ion-activatable ripple-parent"
                             @click="switchTabView('/point_exchange')"
                             :button="true"
                             lines="none"
