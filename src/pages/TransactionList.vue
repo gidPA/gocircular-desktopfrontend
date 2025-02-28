@@ -91,7 +91,7 @@ const totalItemCount = ref<number>(0);
 const pageCount = ref<number>(0);
 const currentPage = ref<number>(0);
 
-const fetchData = async (page=1, pageSize=10) => {
+const fetchData = async (page=1, pageSize=9) => {
     try {
         const response = await apiRequest(`/transaction/list?page=${page}&size=${pageSize}`, ApiRequestMethods.GET);
         console.log(response);

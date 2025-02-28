@@ -100,7 +100,12 @@ const submitRVM = async () => {
         });
         console.log(result);
 
-        router.replace('/rvm');
+        router.replace({
+            path: "/rvm/register/success",
+            query: {
+                data_b64: window.btoa(JSON.stringify(result.data)),
+            }
+        });
     } catch(err){
         console.log(err);
     }

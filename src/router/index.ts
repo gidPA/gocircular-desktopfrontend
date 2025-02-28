@@ -44,6 +44,14 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
+    path: '/rvm/register/success',
+    name: 'Successfully Registered RVM',
+    component: () => import('@/pages/rvm-subpages/RegisterSuccessful.vue'),
+    meta:{
+      requiresAuth: true,
+    }
+  },
+  {
     path: '/transactions',
     name: 'Transactions',
     component: TransactionList,

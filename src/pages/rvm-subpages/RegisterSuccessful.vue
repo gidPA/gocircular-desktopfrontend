@@ -16,7 +16,7 @@
     </base-layout>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import BaseLayout from '@/components/BaseLayout.vue';
 import {
     IonText,
@@ -29,25 +29,36 @@ import {
     onIonViewWillEnter
     // IonIcon
 } from '@ionic/vue';
-import { ref, watch } from 'vue'
-import QRCode from 'qrcode'
+import { ref, computed} from 'vue';
+import QRCode from 'qrcode';
+import { useRoute, } from 'vue-router';
 
-const text = ref('')
+const route = useRoute();
+
+// Define the computed property and handle potential types (array, string, null)
+const queryId = computed(() => {
+    const base64Text = route.query.data_b64;
+    return Array.isArray(base64Text) ? base64Text[0] : base64Text; // Handle array case, return first element
+});
+
 const qrCodeImageUrl = ref(null)
 
-const generateQRCode = async () => {
-    try {
-        qrCodeImageUrl.value = await QRCode.toDataURL(text.value || ' ', {
+// Computed property that works with the queryId
+onIonViewWillEnter(async () => {
+    try{
+        const base64Text = queryId.value;
+        console.log(base64Text)
+        const data = JSON.parse(window.atob(base64Text));
+        qrCodeImageUrl.value = await QRCode.toDataURL(JSON.stringify(data) || ' ', {
             width: 200,
             margin: 1,
         })
+
     } catch (error) {
         console.error('Error generating QR code:', error)
     }
-}
+});
 
-// Watch text input and update QR code whenever the text changes
-watch(text, generateQRCode)
 </script>
 
 <style scoped>
